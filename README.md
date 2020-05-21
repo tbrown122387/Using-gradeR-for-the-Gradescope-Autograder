@@ -1,13 +1,13 @@
 # Using gradeR with Gradescope
 
 
-## Introducing 
+## Introduction 
 
-The `gradeR` package helps grade your students's assignment submissions that are `R` Scripts (`.r` or `.R` files). If you want to use `gradeR` for grading submissions on your own laptop or desktop, please see the vignette [here.](https://cran.r-project.org/web/packages/gradeR/vignettes/gradeR.html). Instead, this vignette describes how to use the [Gradescope autograder](https://gradescope-autograders.readthedocs.io/en/latest/) with a helper function from this package. If you have already read the ["getting started" vignette](git remote add origin https://github.com/tbrown122387/Using-gradeR-for-the-Gradescope-Autograder.git), and you work for an institution/university that has an appropriate subscription to this service, then this is probably useful information for you.
+The `gradeR` package helps grade your students's assignment submissions that are `R` Scripts (`.r` or `.R` files). If you want to use `gradeR` for grading submissions on your own laptop or desktop, please see the vignette [here.](https://cran.r-project.org/web/packages/gradeR/vignettes/gradeR.html). Instead, this vignette describes how to use the [Gradescope autograder](https://gradescope-autograders.readthedocs.io/en/latest/) with a helper function from this package. If you have already read the ["getting started" vignette](https://cran.r-project.org/web/packages/gradeR/vignettes/gradeR.html), and you work for an institution/university that has an appropriate subscription to this service, then this is probably useful information for you.
 
 ## A High-Level view
 
-The autograding code for each assignment must be comprised of several files:
+The autograding code for each Gradescope assignment must be comprised of several files:
 
 1. `setup.sh` is a Linux Bash script that the Gradescope servers run to install `R` and any `R` packages that are required. For those of you have little to no experience with shell scripting, do not despair! This [Github repository](https://github.com/tbrown122387/Using-gradeR-for-the-Gradescope-Autograder) provides an example that will be easy to modify (TODO link). The name of this file must be `setup.sh` because that's what Gradescope expects. 
 
@@ -17,10 +17,30 @@ The autograding code for each assignment must be comprised of several files:
 
 4. `run_autograder` is another Linux Bash script that Gradescope servers run. This file must have this name, because Gradescope expects this. This small program is run every time a single student submission needs to be graded. It copies a single student submission into the folder/directory that the Gradescope server expects, and then it runs the previously-mentioned file. 
 
+5. Extra data files need to be included too. For example, we include a file called `data.csv` in our [directory with all the autograding files](https://github.com/tbrown122387/Using-gradeR-for-the-Gradescope-Autograder/tree/master/autograding_code_and_data).
+
 After all of these files have been written, they are then compressed into a single `.zip` file ([as described here](https://gradescope-autograders.readthedocs.io/en/latest/specs/)), and then uploaded to Gradescope. Gradescope takes care of the rest. 
 
+Note that it is still possible to use Gradescope's autograder without the `gradeR` package. For an example of how to do that, please see this [Github repo](https://github.com/guerzh/r_autograde_gradescope).
 
-## A Fully-Worked Example
+## Customization Checklist
+
+To make your own assignment, log on to Gradescope and then start a new *programming assignment*. Then, make some customizations to the code in [`autograding_code_and_data/'](https://github.com/tbrown122387/Using-gradeR-for-the-Gradescope-Autograder/tree/master/autograding_code_and_data). After you have made the changes, zip those files up, and upload it to Gradescope. 
+
+If you are unfamiliar with their layout, please see their instructions [here.](https://gradescope-autograders.readthedocs.io/en/latest/getting_started/).
+
+There are a few things to do when you customize this to your own assignment:
+
+1. Make sure that each student's submission is named the same. In our example, we assume all submissions are named `assignment1.R`
+
+2. Make sure `grade_one_submission.r` references the correct filenames. For us, we chose `assignment1.R` and assignment1_tests.R`
+
+3. Make sure your assignment instructions feature the same warnings in our example assignment TODO link 
+
+4. Make sure your `setup.sh` installs all packages that student code requires.
+
+5. Make sure `run_autograder` uses the correct filenames. The directories are what Gradescope expects, so don't change those.
+
 
 Here's an example of an entire hypothetical assignment. The following files are `fake_hw1.pdf`, `data.csv`, `assignment1_test_file.r`, and all of the student submissions. They might be organized on your hard drive as follows:
 
