@@ -5,7 +5,7 @@
 
 The `gradeR` package helps grade your students's assignment submissions that are `R` Scripts (`.r` or `.R` files). If you want to use `gradeR` for grading submissions **on your own laptop or desktop**, please see the vignette [here](https://cran.r-project.org/web/packages/gradeR/vignettes/gradeR.html). Instead, this vignette describes how to use the [Gradescope autograder](https://gradescope-autograders.readthedocs.io/en/latest/) with a helper function from `gradeR`. 
 
-If you have already read the ["getting started" vignette](https://cran.r-project.org/web/packages/gradeR/vignettes/gradeR.html), and you work for an institution/university that has an appropriate subscription to this service, then this is probably useful information for you.
+If you have already read the ["getting started" vignette](https://cran.r-project.org/web/packages/gradeR/vignettes/gradeR.html), and you work for an institution/university that has an appropriate subscription to this service, then this is probably useful information for you. For each assignment you make, you might consider cloning this repository, modifying the student-facing assignment provided in `example_hw_assignment`, and then modifying the files required by Gradescope provided in `autograding_code_and_data`.
 
 ## A High-Level view
 
