@@ -3,150 +3,46 @@
 
 ## Introduction 
 
-The `gradeR` package helps grade your students's assignment submissions that are `R` Scripts (`.r` or `.R` files). If you want to use `gradeR` for grading submissions on your own laptop or desktop, please see the vignette [here.](https://cran.r-project.org/web/packages/gradeR/vignettes/gradeR.html). Instead, this vignette describes how to use the [Gradescope autograder](https://gradescope-autograders.readthedocs.io/en/latest/) with a helper function from this package. If you have already read the ["getting started" vignette](https://cran.r-project.org/web/packages/gradeR/vignettes/gradeR.html), and you work for an institution/university that has an appropriate subscription to this service, then this is probably useful information for you.
+The `gradeR` package helps grade your students's assignment submissions that are `R` Scripts (`.r` or `.R` files). If you want to use `gradeR` for grading submissions **on your own laptop or desktop**, please see the vignette [here](https://cran.r-project.org/web/packages/gradeR/vignettes/gradeR.html). Instead, this vignette describes how to use the [Gradescope autograder](https://gradescope-autograders.readthedocs.io/en/latest/) with a helper function from `gradeR`. 
+
+If you have already read the ["getting started" vignette](https://cran.r-project.org/web/packages/gradeR/vignettes/gradeR.html), and you work for an institution/university that has an appropriate subscription to this service, then this is probably useful information for you.
 
 ## A High-Level view
 
-The autograding code for each Gradescope assignment must be comprised of several files:
+Students submit their assignments to Gradescope, and afterwards, their code is run and checked on Gradescope servers. The benefit is that students get feedback much more quickly, and your computer doesn't need to stay busy all day running student code. The downside is that everything becomes a bit more complicated. That's what this repository is for--to provide a template for each assignment, and for all the code you have to give to Gradescope for each assignment. 
 
-1. `setup.sh` is a Linux Bash script that the Gradescope servers run to install `R` and any `R` packages that are required. For those of you have little to no experience with shell scripting, do not despair! This [Github repository](https://github.com/tbrown122387/Using-gradeR-for-the-Gradescope-Autograder) provides an example that will be easy to modify (TODO link). The name of this file must be `setup.sh` because that's what Gradescope expects. 
+The autograding code for each Gradescope assignment must be comprised of several files. We have provided all of these files in the directory [autograding_code_and_data](https://github.com/tbrown122387/Using-gradeR-for-the-Gradescope-Autograder/tree/master/autograding_code_and_data).
 
-2. The file with all of the tests. This can have any name you want, and it will usually change depending on what assignment you're grading. In our example (TODO link), we call it `assignment1_grading_file.r` This file contains `test_that` tests. The example should be pretty self explanatory, but for those looking for more detail, see the original vignette, or the documentation of the [`testthat` package](https://testthat.r-lib.org/). 
+1. `setup.sh` is a Linux Bash script that the Gradescope servers run to install `R` and any `R` packages that are required. For those of you have little to no experience with shell scripting, do not despair! This [repository](https://github.com/tbrown122387/Using-gradeR-for-the-Gradescope-Autograder) provides an example file [(see here)](https://github.com/tbrown122387/Using-gradeR-for-the-Gradescope-Autograder/blob/master/autograding_code_and_data/setup.sh) that will be easy to modify. Note that the name of this file must be `setup.sh` because that is what Gradescope expects. 
 
-3. The `.R` file that grades a single student submission. This can be named anything you want, too, but we call it TODO. This file is quite simple: it just calls `gradeR::calcGradesForGradescope' This function runs a single student's `.R` file submission, checks it against the `testthat` tests, and nicely formats the output in a way that Gradescope expects. 
+2. The file with all of the tests. This can have any name you want, and it will usually change depending on what assignment you're grading. In this example, we call it [`assignment1_grading_file.r`](https://github.com/tbrown122387/Using-gradeR-for-the-Gradescope-Autograder/blob/master/autograding_code_and_data/assignment1_tests.r). This file contains `testthat` tests, which is another `R` package that `gradeR` depends on. The example should be pretty self explanatory, but for those looking for more detail, see the original `gradeR` vignette, or the documentation for the [`testthat` package](https://testthat.r-lib.org/). 
 
-4. `run_autograder` is another Linux Bash script that Gradescope servers run. This file must have this name, because Gradescope expects this. This small program is run every time a single student submission needs to be graded. It copies a single student submission into the folder/directory that the Gradescope server expects, and then it runs the previously-mentioned file. 
+3. The `.R` file that grades a single student submission. This can be named anything you want, too, but we call it [`grade_one_submission.r`](https://github.com/tbrown122387/Using-gradeR-for-the-Gradescope-Autograder/blob/master/autograding_code_and_data/grade_one_submission.r). Thanks to `gradeR`, this one is pretty simple--it just calls `gradeR::calcGradesForGradescope()'. This function runs a single student's `.R` file submission, checks it against the provided `testthat` tests, and nicely formats the output in a way that Gradescope expects. 
 
-5. Extra data files need to be included too. For example, we include a file called `data.csv` in our [directory with all the autograding files](https://github.com/tbrown122387/Using-gradeR-for-the-Gradescope-Autograder/tree/master/autograding_code_and_data).
+4. `run_autograder` is another Bash script that Gradescope's Linux servers run. This file must have this name, because Gradescope expects this. This small program is run every time a single student submission needs to be graded. It copies a single student submission into the directory that the Gradescope server expects, and then it runs the previously-mentioned file (which we called `grade_one_submission.R`). 
 
-After all of these files have been written, they are then compressed into a single `.zip` file ([as described here](https://gradescope-autograders.readthedocs.io/en/latest/specs/)), and then uploaded to Gradescope. Gradescope takes care of the rest. 
+5. Extra data files need to be included too. For example, our example homework assignment asked students to read in the file called `data.csv`. This file is in our [directory with all the other autograding files](https://github.com/tbrown122387/Using-gradeR-for-the-Gradescope-Autograder/tree/master/autograding_code_and_data).
+
+After all of these files have been written, they are then compressed into a single `.zip` file ([as described by Gradescope here](https://gradescope-autograders.readthedocs.io/en/latest/specs/)), and then uploaded to Gradescope. Gradescope takes care of the rest. 
 
 Note that it is still possible to use Gradescope's autograder without the `gradeR` package. For an example of how to do that, please see this [Github repo](https://github.com/guerzh/r_autograde_gradescope).
 
 ## Customization Checklist
 
-To make your own assignment, log on to Gradescope and then start a new *programming assignment*. Then, make some customizations to the code in [`autograding_code_and_data/'](https://github.com/tbrown122387/Using-gradeR-for-the-Gradescope-Autograder/tree/master/autograding_code_and_data). After you have made the changes, zip those files up, and upload it to Gradescope. 
+To make your own assignment, log on to Gradescope and then start a new *programming assignment*. Then, make some customizations to the files in this repository. After you have made the changes, zip those files up, and upload it to Gradescope. 
 
-If you are unfamiliar with their layout, please see their instructions [here.](https://gradescope-autograders.readthedocs.io/en/latest/getting_started/).
+If you are unfamiliar with their website, please see the instructions that they provide [here.](https://gradescope-autograders.readthedocs.io/en/latest/getting_started/)
 
 There are a few things to do when you customize this to your own assignment:
 
 1. Make sure that each student's submission is named the same. In our example, we assume all submissions are named `assignment1.R`
 
-2. Make sure `grade_one_submission.r` references the correct filenames. For us, we chose `assignment1.R` and assignment1_tests.R`
+2. Make sure `grade_one_submission.r` references the correct filenames. For us, we chose `assignment1.R` and `assignment1_tests.R`
 
-3. Make sure your assignment instructions feature the same warnings in our example assignment TODO link 
+3. Make sure your assignment instructions feature the same warnings in our example assignment [here.](https://github.com/tbrown122387/Using-gradeR-for-the-Gradescope-Autograder/blob/master/example_hw_assignment/fake_hw1.pdf) 
 
-4. Make sure your `setup.sh` installs all packages that student code requires.
+4. Make sure your `setup.sh` installs all packages that student code requires. 
 
 5. Make sure `run_autograder` uses the correct filenames. The directories are what Gradescope expects, so don't change those.
 
 
-Here's an example of an entire hypothetical assignment. The following files are `fake_hw1.pdf`, `data.csv`, `assignment1_test_file.r`, and all of the student submissions. They might be organized on your hard drive as follows:
-
-```
-├── distributed_assignment
-│   ├── data.csv
-│   ├── fake_hw1.pdf
-├── grading_resources
-│   ├── assignment1_test_file.r
-└── submissions
-    ├── jane_doe_hw1_submission.r
-    └── john_doe_assignment1.r
-```
-
-This is what `fake_hw1.pdf` looks like. It's the set of instructions given to each students.
-
-```{r, out.width = "400px", include=TRUE, fig.align="center", echo=F}
-knitr::include_graphics("example/distributed_assignment/screenshot.png")
-```
-
-The external data set `data.csv` is also distributed to students. In this case, it looks like this:
-```
-a,b,c
-1,2,3
-4,5,700.01
-```
-
-The test file you create would look similar to this file, `assignment1_test_file.r`:
-
-```
-library(testthat)
-
-setwd("~/path/to/where/dataset/is/")
-
-# first test
-test_that("first", {
-  
-  expect_equal( sum(myVector), 6) 
-
-  })
-
-# second test
-test_that("second", {
-
-  expect_true(is.character(myString))
-  expect_true(nchar(myString) > 2)
-
-})
-
-# third test
-test_that("third", {
-
-  expect_equal(nrow(myDataFrame), 2)
-  expect_equal(myDataFrame[1,1], 700.01, tolerance=1e-3)
-
-})
-```
-
-This hypothetical class is very small, and it has only two students. These two students made the following submissions: first, `jane_doe_hw1_submission.r`:
-
-```
-# Jane Doe's assignment 1
-# Aug. 8 2019
-# STAT 101
-
-# question 1
-myVector <- 1:3
-
-# question 2
-myString <- "Jane Doe"
-
-# question 3
-myDataFrame <- read.csv("data.csv")
-```
-and second, `john_doe_assignment1.r`:
-
-```
-# John Doe's assignment 1
-
-# question 1
-myVector <- c(1,2,3)
-
-# question 2
-# I had a little trouble with this one!
-
-# question 3
-myDataFrame <- read.csv("data.csv")
-```
-
-And that's that! There aren't any more files that are required. The rest is just code you type into the console interactively. It might look something like this: 
-
-```
-# load in the package
-library(gradeR)
-
-# this is the directory with all of the student submissions
-submissionDir <- "../submissions/"
-
-# get the grades
-grades <- calcGrades(submission_dir = submissionDir, 
-                     your_test_file = "~/this/should/be/your/correct/path/assignment1_grading_file.r")
-```
-
-From there, you can do whatever you want. For instance, you can take the sum/average of all the questions they get correct, weight different questions by different amounts, apply a curve, calculate which percentage of students got each question correct, make histograms of the grades, etc. 
-
-
-## Some Extra Functions
-
-Currently, there are two other functions in this package: `findGlobalPaths` and `findBadEncodingFiles`. After you have provided a submission directory, these functions will find all student submissions (files that end with `.R` or `.r`) and scan every line to see if there are any problems. Specifically, they will check for 1.) if any file refers to global/machine-specific file paths, and 2.) if any file has unreadable characters (non-UTF-8). In my experience, these are the two most common problems with student submissions. The second problem often arises when students copy/paste code from strange text editors, or when their keyboards type in multiple languages.
