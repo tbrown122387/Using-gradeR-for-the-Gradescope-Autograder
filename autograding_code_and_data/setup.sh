@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
 # these lines install R on the Gradescope virtual machine
+#docker pull rocker/tidyverse
+#FROM rocker/verse
+
+# or you can do it the slow way...
 apt-get install -y libxml2-dev libcurl4-openssl-dev libssl-dev
 apt-get install -y r-base
 

@@ -17,6 +17,8 @@ The autograding code for each Gradescope assignment must be comprised of several
 
 2. The file with all of the tests. This can have any name you want, and it will usually change depending on what assignment you're grading. In this example, we call it [`assignment1_grading_file.r`](https://github.com/tbrown122387/Using-gradeR-for-the-Gradescope-Autograder/blob/master/autograding_code_and_data/assignment1_tests.r). This file contains `testthat` tests, which is another `R` package that `gradeR` depends on. The example should be pretty self explanatory, but for those looking for more detail, see the original `gradeR` vignette, or the documentation for the [`testthat` package](https://testthat.r-lib.org/). 
 
+By default, each test case has its visibility set to "hidden." If you would like a test to be visible to the students, make sure to include the phrase "(visible)" in the name of the particular test. 
+
 3. The `.R` file that grades a single student submission. This can be named anything you want, too, but we call it [`grade_one_submission.r`](https://github.com/tbrown122387/Using-gradeR-for-the-Gradescope-Autograder/blob/master/autograding_code_and_data/grade_one_submission.r). Thanks to `gradeR`, this one is pretty simple--it just calls `gradeR::calcGradesForGradescope()`. This function runs a single student's `.R` file submission, checks it against the provided `testthat` tests, and nicely formats the output in a way that Gradescope expects. 
 
 4. `run_autograder` is another Bash script that Gradescope's Linux servers run. This file must have this name, because Gradescope expects this. This small program is run every time a single student submission needs to be graded. It copies a single student submission into the directory that the Gradescope server expects, and then it runs the previously-mentioned file (which we called `grade_one_submission.R`). 
@@ -29,7 +31,7 @@ Note that it is still possible to use Gradescope's autograder without the `grade
 
 ## Customization Checklist
 
-To make your own assignment, log on to Gradescope and then start a new *programming assignment*. Then, make some customizations to the files in this repository. After you have made the changes, zip those files up, and upload it to Gradescope. 
+To make your own assignment, log on to Gradescope and then start a new *programming assignment*. Then, make some customizations to the files in this repository. After you have made the changes, zip those files up, and upload it to Gradescope. A word of caution: uploading the zip file will take a minute or two. This can make debugging very annoying. 
 
 If you are unfamiliar with their website, please see the instructions that they provide [here.](https://gradescope-autograders.readthedocs.io/en/latest/getting_started/)
 
@@ -44,5 +46,4 @@ There are a few things to do when you customize this to your own assignment:
 4. Make sure your `setup.sh` installs all packages that student code requires. 
 
 5. Make sure `run_autograder` uses the correct filenames. The directories are what Gradescope expects, so don't change those.
-
 
