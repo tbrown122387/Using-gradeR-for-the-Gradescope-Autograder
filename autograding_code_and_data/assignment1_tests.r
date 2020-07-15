@@ -14,13 +14,13 @@ test_that("first (visible)", {
 test_that("second (invisible)", {
 
   expect_true(is.character(myString))
-  expect_true(len(myString) > 2)
+  expect_true(nchar(myString) > 2)
 
 })
 
 test_that("third", {
 
   expect_equal(nrow(myDataFrame), 2)
-  expect_equal(myDataFrame[1,1], 700.01, tolerance=1e-3)
+  expect_equal(myDataFrame[2,3], 700.01, tolerance=1e-3)
 
 })
