@@ -1,5 +1,8 @@
 # Using gradeR with Gradescope
 
+## Coming Soon!
+
+We are currently making a Shiny website that automates all of the work mentioned below. If you'd like to join the project, send me an email. Otherwise, stay tuned! 
 
 ## TLDR
 
