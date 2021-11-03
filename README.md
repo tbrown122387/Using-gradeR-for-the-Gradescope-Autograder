@@ -1,10 +1,6 @@
 # Using gradeR with Gradescope
 
-## Coming Soon!
-
-We are currently making a Shiny website that automates all of the work mentioned below. If you'd like to join the project, send me an email. Otherwise, stay tuned! 
-
-## TLDR
+## New!
 
 Use this site to automatically generate all required components for autograding an assignment on Gradescope: [https://tbrown122387.github.io/autograder_site/](https://tbrown122387.github.io/autograder_site/).
 
