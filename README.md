@@ -4,6 +4,8 @@
 
 Use this site to automatically generate all required components for autograding an assignment on Gradescope: [https://tbrown122387.github.io/autograder_site/](https://tbrown122387.github.io/autograder_site/).
 
+Edit: Heroku isn't as cheap as it used to be, so the site---despite still being live---will not let you download the generated autograding bundles. If and when we ever secure funding again, that will change.
+
 ## Introduction 
 
 The `gradeR` package helps grade your students's assignment submissions that are `R` Scripts (`.r` or `.R` files). If you want to use `gradeR` for grading submissions **on your own laptop or desktop**, please see the vignette [here](https://cran.r-project.org/web/packages/gradeR/vignettes/gradeR.html). 
