@@ -13,7 +13,7 @@
 
 # or you can do it the slow way...
 apt-get install -y libxml2-dev libcurl4-openssl-dev libssl-dev
-apt install -y r-base
+apt-get install -y r-base
 
 # these lines install the packages that is needed both
 # 1. the student code 
